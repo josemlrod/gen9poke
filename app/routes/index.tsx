@@ -1,34 +1,18 @@
+import { useLoaderData } from "@remix-run/react";
+
+export async function loader() {
+  try {
+    const { pokemon_entries: pokemonEntries } = await (
+      await fetch("https://pokeapi.co/api/v2/pokedex/paldea/")
+    ).json();
+    return pokemonEntries;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export default function Index() {
-  return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <h1 className="text-green-500">Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            className="bg-red-600"
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            className="bg-blue-600"
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
-    </div>
-  );
+  const data = useLoaderData();
+  // console.log(data);
+  return <div></div>;
 }
