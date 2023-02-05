@@ -10,6 +10,8 @@ import {
 
 import styles from "~/tailwind.css";
 
+import Header from "~/components/header";
+
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
   title: "New Remix App",
@@ -26,6 +28,7 @@ export default function App() {
         <Links />
       </head>
       <body>
+        <Header />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
