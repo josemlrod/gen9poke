@@ -1,18 +1,4 @@
-type PokemonEntry = {
-  entry_number: number;
-  pokemon_species: {
-    name: string;
-    url: string;
-  };
-};
-
-type PokemonName = {
-  language: {
-    name: string;
-    url: string;
-  };
-  name: string;
-};
+import type { PokemonEntry, PokemonName } from "./index";
 
 export async function fetchPaldeaPokemonIds() {
   try {
@@ -84,11 +70,12 @@ export async function getPaldeaPokemonData() {
 }
 
 function getPokemonName(names: PokemonName[]) {
-  const englishName = names.find((name: PokemonName) => {
-    return name.language.name === "en";
-  });
+  const { name } =
+    names.find((name: PokemonName) => {
+      return name.language.name === "en";
+    }) || {};
 
-  return englishName && englishName.name;
+  return name;
 }
 
 function getPokemonId(url: string) {
