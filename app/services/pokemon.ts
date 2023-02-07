@@ -28,6 +28,25 @@ export async function fetchPaldeaPokemonIds() {
   }
 }
 
+export async function fetchPokemonData(pokemonId: number) {
+  try {
+    const { abilities, height, moves, stats, types, weight } = await (
+      await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`)
+    ).json();
+
+    return {
+      abilities,
+      height,
+      moves,
+      stats,
+      types,
+      weight,
+    };
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function fetchPokemonSpecies(pokemonId: number) {
   try {
     const {
@@ -52,9 +71,15 @@ export async function fetchPokemonSpecies(pokemonId: number) {
 
 export async function getPaldeaPokemonData() {
   const ids = await fetchPaldeaPokemonIds();
-  const species = ids.map((id: number) => {
-    fetchPokemonSpecies(id).then((species) => species);
-  });
+  const species = Promise.all(
+    ids.map(async (id: number) => {
+      return {
+        ...(await fetchPokemonSpecies(id)),
+        ...(await fetchPokemonData(id)),
+      };
+    })
+  );
+
   return species;
 }
 
