@@ -1,6 +1,7 @@
+import React from "react";
 import { useLoaderData } from "@remix-run/react";
 
-import { getPaldeaPokemonData } from "~/services";
+import { getPaldeaPokemonData, type Pokemon } from "~/services";
 
 import { PokemonCard } from "~/components/pokemonCard";
 
@@ -15,12 +16,14 @@ export async function loader() {
 
 export default function Index() {
   const data = useLoaderData();
-  console.log(data);
   return (
-    <>
+    <React.Fragment>
       <h1>Pokedex</h1>
-      <div>Pokemon cards go here</div>
-      <PokemonCard pokemon={data[0]} />
-    </>
+      <div className="grid grid-cols-2">
+        {data.map((pokemon: Pokemon) => (
+          <PokemonCard key={pokemon.id} pokemon={pokemon} />
+        ))}
+      </div>
+    </React.Fragment>
   );
 }
