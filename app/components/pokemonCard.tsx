@@ -1,6 +1,7 @@
 import {
   capitalizeFirstLetter,
   type Pokemon,
+  type PokemonType,
   getPokemonCardBgColor,
 } from "~/services";
 
@@ -18,9 +19,7 @@ export function PokemonCard({ pokemon }: Props) {
     >
       <p className="font-bold text-gray-200">{pokemon.name}</p>
       <div className="flex flex-row justify-between items-center">
-        <p className="flex rounded-full max-h-8 px-4 items-center bg-green-400 text-gray-200">
-          {capitalizeFirstLetter(pokemon.types[0].type.name)}
-        </p>
+        <div className="grid gap-1">{PokemonTypes(pokemon.types)}</div>
         <img
           alt="pokemon"
           className="w-20 h-20"
@@ -29,4 +28,17 @@ export function PokemonCard({ pokemon }: Props) {
       </div>
     </a>
   );
+}
+
+function PokemonTypes(types: PokemonType[]) {
+  return types.map((type, index) => {
+    return (
+      <p
+        className={`flex rounded-full max-h-8 px-4 items-center bg-green-400 text-gray-200`}
+        key={index}
+      >
+        {capitalizeFirstLetter(type.type.name)}
+      </p>
+    );
+  });
 }
