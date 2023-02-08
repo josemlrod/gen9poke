@@ -7,7 +7,12 @@ import {
 
 import { capitalizeFirstLetter, getPokemonCardBgColor } from "./utils";
 
-import type { Pokemon, PokemonEntry, PokemonName } from "./pokemonTypes";
+import type {
+  Pokemon,
+  PokemonEntry,
+  PokemonName,
+  PokemonType,
+} from "./pokemonTypes";
 
 export {
   capitalizeFirstLetter,
@@ -19,4 +24,5 @@ export {
   Pokemon,
   PokemonEntry,
   PokemonName,
+  PokemonType,
 };
