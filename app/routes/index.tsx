@@ -19,7 +19,7 @@ export default function Index() {
   return (
     <React.Fragment>
       <h1>Pokedex</h1>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-3">
         {data.map((pokemon: Pokemon) => (
           <PokemonCard key={pokemon.id} pokemon={pokemon} />
         ))}

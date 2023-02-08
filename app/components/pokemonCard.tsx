@@ -12,7 +12,7 @@ export function PokemonCard({ pokemon }: Props) {
   const cardBackground = getPokemonCardBgColor(pokemon.typeColor);
   return (
     <a
-      className={`flex flex-col relative rounded-xl p-4 shadow-xl ${cardBackground}`}
+      className={`flex flex-col relative rounded-xl p-4 shadow-xl ${cardBackground} shadow-2xl`}
       href="/"
       style={{ minWidth: 100 }}
     >
