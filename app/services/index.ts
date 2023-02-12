@@ -1,8 +1,11 @@
 import {
   fetchPaldeaPokemonIds,
-  fetchPokemonData,
-  fetchPokemonSpecies,
+  fetchPokemonDataById,
+  fetchPokemonDataByName,
+  fetchPokemonSpeciesById,
+  fetchPokemonSpeciesByName,
   getPaldeaPokemonData,
+  getPokemonData,
 } from "./pokemon";
 
 import {
@@ -22,11 +25,14 @@ import type {
 export {
   capitalizeFirstLetter,
   fetchPaldeaPokemonIds,
-  fetchPokemonData,
-  fetchPokemonSpecies,
+  fetchPokemonDataById,
+  fetchPokemonDataByName,
+  fetchPokemonSpeciesById,
+  fetchPokemonSpeciesByName,
   formatPokemonId,
   getPaldeaPokemonData,
   getPokemonCardBgColor,
+  getPokemonData,
   getPokemonTypeIcon,
   Pokemon,
   PokemonEntry,
