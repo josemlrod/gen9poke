@@ -34,6 +34,7 @@ export async function fetchPokemonDataById(pokemonId: number) {
 }
 
 export async function fetchPokemonDataByName(pokemonName: string) {
+  // lycanroc is not found
   try {
     const { abilities, height, moves, stats, types, weight } = await (
       await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}/`)
