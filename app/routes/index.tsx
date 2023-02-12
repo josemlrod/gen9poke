@@ -5,24 +5,29 @@ import { getPaldeaPokemonData, type Pokemon } from "~/services";
 
 import { PokemonCard } from "~/components/pokemonCard";
 
+import data from "~/response.json";
+
 export async function loader() {
-  try {
-    const paldeaPokemon = await getPaldeaPokemonData();
-    return paldeaPokemon;
-  } catch (e) {
-    console.log(e);
-  }
+  // try {
+  //   const paldeaPokemon = await getPaldeaPokemonData();
+  //   return paldeaPokemon;
+  // } catch (e) {
+  //   console.log(e);
+  // }
+  return null;
 }
 
 export default function Index() {
-  const data = useLoaderData();
+  // const data = useLoaderData();
+  // console.log(data);
   return (
     <React.Fragment>
       <h1>Pokedex</h1>
       <div className="grid grid-cols-2 gap-3">
-        {data.map((pokemon: Pokemon) => (
-          <PokemonCard key={pokemon.id} pokemon={pokemon} />
-        ))}
+        {data &&
+          data.map((pokemon: Pokemon) => (
+            <PokemonCard key={pokemon.id} pokemon={pokemon} />
+          ))}
       </div>
     </React.Fragment>
   );
