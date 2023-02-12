@@ -13,6 +13,7 @@ import {
 
 export async function loader({ params }: LoaderArgs) {
   const { pokemon: pokemonName } = params;
+  console.log("params: ", params);
   const pokemonData = pokemonName && (await getPokemonData(pokemonName));
   return pokemonData;
 }
@@ -29,10 +30,15 @@ export default function PokemonScreen() {
   const topSectionBgColor = getPokemonCardBgColor(pokemonMainTypeName);
 
   return (
-    <main style={{ height: `calc(100vh - 68px)` }}>
+    <main
+      style={{
+        backgroundColor: topSectionBgColor,
+        height: `calc(100vh - 68px)`,
+      }}
+    >
       <section
-        className="w-full h-2/5"
-        style={{ backgroundColor: topSectionBgColor }}
+        className="w-full"
+        style={{ backgroundColor: topSectionBgColor, height: "45%" }}
       >
         <div className="flex flex-row justify-between">
           <p className="text-3xl font-bold text-gray-100">{name}</p>
@@ -51,7 +57,46 @@ export default function PokemonScreen() {
           />
         </div>
       </section>
-      <section className="w-full h-3/5 border border-red-600"></section>
+      <section
+        className="w-full rounded-t-3xl bg-white pt-2"
+        style={{ height: "55%" }}
+      >
+        <nav class="flex border-b border-gray-100 text-sm font-medium justify-center">
+          <a href="" class="-mb-px border-b border-current p-4 text-cyan-500">
+            About
+          </a>
+
+          <a
+            href=""
+            class="-mb-px border-b border-transparent p-4 hover:text-cyan-500"
+          >
+            Base Stats
+          </a>
+
+          <a
+            href=""
+            class="-mb-px border-b border-transparent p-4 hover:text-cyan-500"
+          >
+            Evolution
+          </a>
+
+          <a
+            href=""
+            class="-mb-px border-b border-transparent p-4 hover:text-cyan-500"
+          >
+            Moves
+          </a>
+        </nav>
+
+        <p>Second section starts here</p>
+        <p>Second section starts here</p>
+        <p>Second section starts here</p>
+        <p>Second section starts here</p>
+        <p>Second section starts here</p>
+        <p>Second section starts here</p>
+        <p>Second section starts here</p>
+        <p>Second section starts here</p>
+      </section>
       <Outlet />
     </main>
   );
