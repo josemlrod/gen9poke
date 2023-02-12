@@ -8,6 +8,7 @@ import {
 import {
   capitalizeFirstLetter,
   getPokemonCardBgColor,
+  getPokemonTypeIcon,
   formatPokemonId,
 } from "./utils";
 
@@ -26,6 +27,7 @@ export {
   formatPokemonId,
   getPaldeaPokemonData,
   getPokemonCardBgColor,
+  getPokemonTypeIcon,
   Pokemon,
   PokemonEntry,
   PokemonName,
