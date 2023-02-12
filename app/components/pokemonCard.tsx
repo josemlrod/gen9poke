@@ -1,9 +1,8 @@
+import PokemonTypes from "./pokemonTypes";
 import {
   type Pokemon,
-  type PokemonType,
   formatPokemonId,
   getPokemonCardBgColor,
-  getPokemonTypeIcon,
 } from "~/services";
 
 type Props = {
@@ -26,7 +25,7 @@ export function PokemonCard({ pokemon }: Props) {
       <p className="font-bold text-gray-200">{pokemon.name}</p>
       <div className="flex flex-row justify-between items-center">
         <div className="grid gap-1 grid-cols-2">
-          {PokemonTypes(pokemon.types)}
+          <PokemonTypes types={pokemon.types} />
         </div>
         <img
           alt="pokemon"
@@ -38,13 +37,4 @@ export function PokemonCard({ pokemon }: Props) {
       </div>
     </a>
   );
-}
-
-function PokemonTypes(types: PokemonType[]) {
-  return types.map(({ type: { name } }, index) => {
-    const icon = getPokemonTypeIcon(name);
-    return (
-      <img alt={`${name} type`} className="h-7 w-7" key={index} src={icon} />
-    );
-  });
 }
