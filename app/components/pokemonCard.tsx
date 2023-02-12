@@ -2,6 +2,7 @@ import {
   capitalizeFirstLetter,
   type Pokemon,
   type PokemonType,
+  formatPokemonId,
   getPokemonCardBgColor,
 } from "~/services";
 
@@ -23,7 +24,9 @@ export function PokemonCard({ pokemon }: Props) {
         <img
           alt="pokemon"
           className="w-20 h-20"
-          src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${pokemon.id}.png`}
+          src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${formatPokemonId(
+            pokemon.id
+          )}.png`}
         />
       </div>
     </a>

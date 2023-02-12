@@ -5,7 +5,11 @@ import {
   getPaldeaPokemonData,
 } from "./pokemon";
 
-import { capitalizeFirstLetter, getPokemonCardBgColor } from "./utils";
+import {
+  capitalizeFirstLetter,
+  getPokemonCardBgColor,
+  formatPokemonId,
+} from "./utils";
 
 import type {
   Pokemon,
@@ -19,6 +23,7 @@ export {
   fetchPaldeaPokemonIds,
   fetchPokemonData,
   fetchPokemonSpecies,
+  formatPokemonId,
   getPaldeaPokemonData,
   getPokemonCardBgColor,
   Pokemon,
