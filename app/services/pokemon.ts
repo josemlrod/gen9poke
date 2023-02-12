@@ -14,7 +14,7 @@ export async function fetchPaldeaPokemonIds() {
   }
 }
 
-export async function fetchPokemonData(pokemonId: number) {
+export async function fetchPokemonDataById(pokemonId: number) {
   try {
     const { abilities, height, moves, stats, types, weight } = await (
       await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`)
@@ -33,7 +33,26 @@ export async function fetchPokemonData(pokemonId: number) {
   }
 }
 
-export async function fetchPokemonSpecies(pokemonId: number) {
+export async function fetchPokemonDataByName(pokemonName: string) {
+  try {
+    const { abilities, height, moves, stats, types, weight } = await (
+      await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}/`)
+    ).json();
+
+    return {
+      abilities,
+      height,
+      moves,
+      stats,
+      types,
+      weight,
+    };
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function fetchPokemonSpeciesById(pokemonId: number) {
   try {
     const {
       color: { name: typeColor },
@@ -55,18 +74,47 @@ export async function fetchPokemonSpecies(pokemonId: number) {
   }
 }
 
+export async function fetchPokemonSpeciesByName(pokemonName: string) {
+  try {
+    const {
+      color: { name: typeColor },
+      id,
+      names,
+    } = await (
+      await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonName}/`)
+    ).json();
+
+    const name = getPokemonName(names);
+
+    return {
+      id,
+      name,
+      typeColor,
+    };
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function getPaldeaPokemonData() {
   const ids = await fetchPaldeaPokemonIds();
   const species = Promise.all(
     ids.map(async (id: number) => {
       return {
-        ...(await fetchPokemonSpecies(id)),
-        ...(await fetchPokemonData(id)),
+        ...(await fetchPokemonSpeciesById(id)),
+        ...(await fetchPokemonDataById(id)),
       };
     })
   );
 
   return species;
+}
+
+export async function getPokemonData(pokemonName: string) {
+  return {
+    ...(await fetchPokemonSpeciesByName(pokemonName)),
+    ...(await fetchPokemonDataByName(pokemonName)),
+  };
 }
 
 function getPokemonName(names: PokemonName[]) {
