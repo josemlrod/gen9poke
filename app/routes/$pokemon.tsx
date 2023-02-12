@@ -44,7 +44,7 @@ export default function PokemonScreen() {
         <div className="flex justify-center">
           <img
             alt="pokemon"
-            className="w-96 h-96"
+            className="w-80 lg:w-96 h-80 lg:h-96"
             src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${formatPokemonId(
               id
             )}.png`}
