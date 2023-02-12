@@ -17,16 +17,6 @@ import RockTypeIcon from "../../public/rock.svg";
 import SteelTypeIcon from "../../public/steel.svg";
 import WaterTypeIcon from "../../public/water.svg";
 
-export function capitalizeFirstLetter(word: string) {
-  const [firstLetter, ...rest] = word.split("");
-  return `${firstLetter.toUpperCase()}${rest.join("")}`;
-}
-
-export function formatPokemonId(id: number) {
-  const idToString = id.toString();
-  return idToString.padStart(3, "0");
-}
-
 const pokemonTypeToColor: { [key: string]: string } = {
   bug: "#92BC2C",
   dark: "#595761",
@@ -69,10 +59,25 @@ const pokemonTypeToIcon: { [key: string]: string } = {
   water: WaterTypeIcon,
 };
 
+export function capitalizeFirstLetter(word: string) {
+  const [firstLetter, ...rest] = word.split("");
+  return `${firstLetter.toUpperCase()}${rest.join("")}`;
+}
+
 export function getPokemonCardBgColor(pokemonType: string) {
   return pokemonTypeToColor[pokemonType];
 }
 
 export function getPokemonTypeIcon(pokemonType: string) {
   return pokemonTypeToIcon[pokemonType];
+}
+
+export function formatPokemonId(id: number) {
+  const idToString = id.toString();
+  return idToString.padStart(3, "0");
+}
+
+export function replaceSpacesWithHyphens(word: string) {
+  const splitAtSpaces = word.split(" ");
+  return splitAtSpaces.join("-");
 }

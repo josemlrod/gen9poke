@@ -13,6 +13,7 @@ import {
   getPokemonCardBgColor,
   getPokemonTypeIcon,
   formatPokemonId,
+  replaceSpacesWithHyphens,
 } from "./utils";
 
 import type {
@@ -34,6 +35,7 @@ export {
   getPokemonCardBgColor,
   getPokemonData,
   getPokemonTypeIcon,
+  replaceSpacesWithHyphens,
   Pokemon,
   PokemonEntry,
   PokemonName,

@@ -3,6 +3,7 @@ import {
   type Pokemon,
   formatPokemonId,
   getPokemonCardBgColor,
+  replaceSpacesWithHyphens,
 } from "~/services";
 
 type Props = {
@@ -19,7 +20,7 @@ export function PokemonCard({ pokemon: { id, name, types } }: Props) {
   return (
     <a
       className={`flex flex-col relative rounded-xl p-4 shadow-2xl`}
-      href={`/${name.toLowerCase()}`}
+      href={`/${replaceSpacesWithHyphens(name.toLowerCase())}`}
       style={{ backgroundColor: cardBackground, minWidth: 100 }}
     >
       <p className="font-bold text-gray-200">{name}</p>
