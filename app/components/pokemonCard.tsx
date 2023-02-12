@@ -1,9 +1,9 @@
 import {
-  capitalizeFirstLetter,
   type Pokemon,
   type PokemonType,
   formatPokemonId,
   getPokemonCardBgColor,
+  getPokemonTypeIcon,
 } from "~/services";
 
 type Props = {
@@ -11,16 +11,23 @@ type Props = {
 };
 
 export function PokemonCard({ pokemon }: Props) {
-  const cardBackground = getPokemonCardBgColor(pokemon.typeColor);
+  const [
+    {
+      type: { name: pokemonMainTypeName },
+    },
+  ] = pokemon.types;
+  const cardBackground = getPokemonCardBgColor(pokemonMainTypeName);
   return (
     <a
-      className={`flex flex-col relative rounded-xl p-4 shadow-xl ${cardBackground} shadow-2xl`}
+      className={`flex flex-col relative rounded-xl p-4 shadow-2xl`}
       href="/"
-      style={{ minWidth: 100 }}
+      style={{ backgroundColor: cardBackground, minWidth: 100 }}
     >
       <p className="font-bold text-gray-200">{pokemon.name}</p>
       <div className="flex flex-row justify-between items-center">
-        <div className="grid gap-1">{PokemonTypes(pokemon.types)}</div>
+        <div className="grid gap-1 grid-cols-2">
+          {PokemonTypes(pokemon.types)}
+        </div>
         <img
           alt="pokemon"
           className="w-20 h-20"
@@ -34,14 +41,10 @@ export function PokemonCard({ pokemon }: Props) {
 }
 
 function PokemonTypes(types: PokemonType[]) {
-  return types.map((type, index) => {
+  return types.map(({ type: { name } }, index) => {
+    const icon = getPokemonTypeIcon(name);
     return (
-      <p
-        className={`flex rounded-full max-h-8 px-4 items-center bg-green-400 text-gray-200`}
-        key={index}
-      >
-        {capitalizeFirstLetter(type.type.name)}
-      </p>
+      <img alt={`${name} type`} className="h-7 w-7" key={index} src={icon} />
     );
   });
 }
