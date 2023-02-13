@@ -81,9 +81,9 @@ export async function fetchPokemonSpeciesByName(pokemonName: string) {
       color: { name: typeColor },
       id,
       names,
-    } = await (
+    } = (await (
       await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonName}/`)
-    ).json();
+    ).json()) || {};
 
     const name = getPokemonName(names);
 

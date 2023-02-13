@@ -7,16 +7,6 @@ import { PokemonCard } from "~/components/pokemonCard";
 
 import data from "~/response.json";
 
-export async function loader() {
-  // try {
-  //   const paldeaPokemon = await getPaldeaPokemonData();
-  //   return paldeaPokemon;
-  // } catch (e) {
-  //   console.log(e);
-  // }
-  return null;
-}
-
 export default function Index() {
   // const data = useLoaderData();
   // console.log(data);

@@ -17,10 +17,11 @@ export function PokemonCard({ pokemon: { id, name, types } }: Props) {
     },
   ] = types;
   const cardBackground = getPokemonCardBgColor(pokemonMainTypeName);
+  const hyphenatedPokemonName = replaceSpacesWithHyphens(name.toLowerCase());
   return (
     <a
       className={`flex flex-col relative rounded-xl p-4 shadow-2xl`}
-      href={`/${replaceSpacesWithHyphens(name.toLowerCase())}`}
+      href={`/${hyphenatedPokemonName}/about`}
       style={{ backgroundColor: cardBackground, minWidth: 100 }}
     >
       <p className="font-bold text-gray-200">{name}</p>

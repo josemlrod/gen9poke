@@ -73,8 +73,11 @@ export function getPokemonTypeIcon(pokemonType: string) {
 }
 
 export function formatPokemonId(id: number) {
-  const idToString = id.toString();
-  return idToString.padStart(3, "0");
+  if (id) {
+    const idToString = id.toString();
+    return idToString.padStart(3, "0");
+  }
+  return null;
 }
 
 export function replaceSpacesWithHyphens(word: string) {

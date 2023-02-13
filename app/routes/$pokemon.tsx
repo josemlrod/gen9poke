@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import { type LoaderArgs } from "@remix-run/node";
@@ -10,24 +9,20 @@ import {
   getPokemonCardBgColor,
   getPokemonData,
 } from "~/services";
+import PokemonDetailsTab from "~/components/pokemonDetailsTab";
 
 export async function loader({ params }: LoaderArgs) {
   const { pokemon: pokemonName } = params;
-  console.log("params: ", params);
   const pokemonData = pokemonName && (await getPokemonData(pokemonName));
   return pokemonData;
 }
 
 export default function PokemonScreen() {
   const data = useLoaderData();
-  console.log(data);
   const { id, name, types } = data;
-  const [
-    {
-      type: { name: pokemonMainTypeName },
-    },
-  ] = types;
-  const topSectionBgColor = getPokemonCardBgColor(pokemonMainTypeName);
+
+  const topSectionBgColor =
+    types && types.length && getPokemonCardBgColor(types[0].type.name);
 
   return (
     <main
@@ -45,7 +40,7 @@ export default function PokemonScreen() {
           <p className="font-bold text-gray-100">#{id}</p>
         </div>
         <div className="flex flex-row gap-1">
-          <PokemonTypes types={types} />
+          {types && types.length && <PokemonTypes types={types} />}
         </div>
         <div className="flex justify-center">
           <img
@@ -61,43 +56,9 @@ export default function PokemonScreen() {
         className="w-full rounded-t-3xl bg-white pt-2"
         style={{ height: "55%" }}
       >
-        <nav class="flex border-b border-gray-100 text-sm font-medium justify-center">
-          <a href="" class="-mb-px border-b border-current p-4 text-cyan-500">
-            About
-          </a>
-
-          <a
-            href=""
-            class="-mb-px border-b border-transparent p-4 hover:text-cyan-500"
-          >
-            Base Stats
-          </a>
-
-          <a
-            href=""
-            class="-mb-px border-b border-transparent p-4 hover:text-cyan-500"
-          >
-            Evolution
-          </a>
-
-          <a
-            href=""
-            class="-mb-px border-b border-transparent p-4 hover:text-cyan-500"
-          >
-            Moves
-          </a>
-        </nav>
-
-        <p>Second section starts here</p>
-        <p>Second section starts here</p>
-        <p>Second section starts here</p>
-        <p>Second section starts here</p>
-        <p>Second section starts here</p>
-        <p>Second section starts here</p>
-        <p>Second section starts here</p>
-        <p>Second section starts here</p>
+        <PokemonDetailsTab pokemonName={name} />
+        <Outlet />
       </section>
-      <Outlet />
     </main>
   );
 }
