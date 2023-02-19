@@ -1,3 +1,5 @@
+import { forwardRef } from "react";
+
 import PokemonTypes from "./pokemonTypes";
 import {
   type Pokemon,
@@ -10,7 +12,10 @@ type Props = {
   pokemon: Pokemon;
 };
 
-export function PokemonCard({ pokemon: { id, name, types } }: Props) {
+export default forwardRef(function PokemonCard(
+  { pokemon: { id, name, types } }: Props,
+  ref
+) {
   const [
     {
       type: { name: pokemonMainTypeName },
@@ -22,6 +27,7 @@ export function PokemonCard({ pokemon: { id, name, types } }: Props) {
     <a
       className={`flex flex-col relative rounded-xl p-4 shadow-2xl`}
       href={`/${hyphenatedPokemonName}/about`}
+      ref={ref}
       style={{ backgroundColor: cardBackground, minWidth: 100 }}
     >
       <p className="font-bold text-gray-200">{name}</p>
@@ -39,4 +45,4 @@ export function PokemonCard({ pokemon: { id, name, types } }: Props) {
       </div>
     </a>
   );
-}
+});

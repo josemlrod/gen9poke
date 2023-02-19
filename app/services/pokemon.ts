@@ -1,4 +1,9 @@
-import type { AllPokemonResponse, PokemonEntry, PokemonName } from "./index";
+import type {
+  AllPokemonResponse,
+  Pokemon,
+  PokemonEntry,
+  PokemonName,
+} from "./index";
 
 export async function fetchPaldeaPokemonIds() {
   try {
@@ -16,7 +21,7 @@ export async function fetchPaldeaPokemonIds() {
 
 export async function fetchAllPokemon(
   nextFetchUrl: string | void
-): AllPokemonResponse {
+): Promise<AllPokemonResponse> {
   try {
     const { next, results } = await (
       await fetch(nextFetchUrl || "https://pokeapi.co/api/v2/pokemon")
@@ -134,10 +139,13 @@ export async function getPokemonData(pokemonName: string) {
   };
 }
 
-export async function getAllPokemonData() {
+export async function getAllPokemonData(): Promise<{
+  next: string;
+  pokemon: Pokemon[];
+}> {
   const { next, pokemon } = await fetchAllPokemon();
   const pokemonData = await Promise.all(
-    pokemon.map(async ({ name }: { name: string }) => {
+    pokemon.map(async ({ name }) => {
       return {
         ...(await getPokemonData(name)),
       };

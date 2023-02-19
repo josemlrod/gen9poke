@@ -41,6 +41,7 @@ export {
   getPokemonData,
   getPokemonTypeIcon,
   replaceSpacesWithHyphens,
+  AllPokemonResponse,
   Pokemon,
   PokemonEntry,
   PokemonName,

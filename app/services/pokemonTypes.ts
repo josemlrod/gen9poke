@@ -74,7 +74,7 @@ export type PokemonType = {
 
 export type AllPokemonResponse = {
   next: string;
-  pokemon: AllPokemonResponse[];
+  pokemon: AllPokemonResponsePokemon[];
 };
 
 export type AllPokemonResponsePokemon = {
