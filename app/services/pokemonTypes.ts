@@ -71,3 +71,13 @@ export type PokemonType = {
     url: string;
   };
 };
+
+export type AllPokemonResponse = {
+  next: string;
+  pokemon: AllPokemonResponse[];
+};
+
+export type AllPokemonResponsePokemon = {
+  name: string;
+  url: string;
+};

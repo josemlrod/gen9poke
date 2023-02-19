@@ -1,4 +1,4 @@
-import type { PokemonEntry, PokemonName } from "./index";
+import type { AllPokemonResponse, PokemonEntry, PokemonName } from "./index";
 
 export async function fetchPaldeaPokemonIds() {
   try {
@@ -9,6 +9,22 @@ export async function fetchPaldeaPokemonIds() {
     return pokemonEntries.map((pokemonEntry: PokemonEntry) =>
       getPokemonId(pokemonEntry.pokemon_species.url)
     );
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function fetchAllPokemon(
+  nextFetchUrl: string | void
+): AllPokemonResponse {
+  try {
+    const { next, results } = await (
+      await fetch(nextFetchUrl || "https://pokeapi.co/api/v2/pokemon")
+    ).json();
+    return {
+      next,
+      pokemon: results,
+    };
   } catch (e) {
     console.log(e);
   }
@@ -116,6 +132,42 @@ export async function getPokemonData(pokemonName: string) {
     ...(await fetchPokemonSpeciesByName(pokemonName)),
     ...(await fetchPokemonDataByName(pokemonName)),
   };
+}
+
+export async function getAllPokemonData() {
+  const { next, pokemon } = await fetchAllPokemon();
+  const pokemonData = await Promise.all(
+    pokemon.map(async ({ name }: { name: string }) => {
+      return {
+        ...(await getPokemonData(name)),
+      };
+    })
+  );
+
+  return {
+    next,
+    pokemon: pokemonData,
+  };
+  // const pokemonData = Promise.all(
+  // allPokemon.map(async ({ name }) => {
+  //   return {
+  //     ...(await getPokemonData(name)),
+  //   };
+  // });
+  // );
+
+  // const pokemonData = Promise.all(
+  //   response.result.map(async (response.pokemon) => {
+  //     return {
+  //       ...(await getPokemonData(pokemon.name))
+  //     }
+  //   })
+  // )
+
+  // return {
+  //   next,
+  //   pokemon: pokemonData,
+  // };
 }
 
 function getPokemonName(names: PokemonName[]) {
