@@ -12,13 +12,16 @@ export async function loader() {
 }
 
 export default function Index() {
-  const { next, allPokemon } = useLoaderData();
-  const [pokemon, setPokemon] = useState(allPokemon);
-  const [nextPageQuery, setNextPageQuery] = useState(next);
+  const { next, allPokemon } = useLoaderData<{
+    next: string;
+    allPokemon: Pokemon[];
+  }>();
+  const [pokemon, setPokemon] = useState<Pokemon[]>(allPokemon);
+  const [nextPageQuery, setNextPageQuery] = useState<string>(next);
 
   const handlePagination = async () => {
     const { next, pokemon } = await getAllPokemonData(nextPageQuery);
-    setPokemon((prevPokemon) => [...prevPokemon, ...pokemon]);
+    setPokemon((prevPokemon: Pokemon[]) => [...prevPokemon, ...pokemon]);
     setNextPageQuery(next);
   };
 
