@@ -21,8 +21,10 @@ export default forwardRef(function PokemonCard(
       type: { name: pokemonMainTypeName },
     },
   ] = types;
+
   const cardBackground = getPokemonCardBgColor(pokemonMainTypeName);
-  const hyphenatedPokemonName = replaceSpacesWithHyphens(name.toLowerCase());
+  const hyphenatedPokemonName =
+    name && replaceSpacesWithHyphens(name.toLowerCase());
   return (
     <a
       className={`flex flex-col relative rounded-xl p-4 shadow-2xl`}

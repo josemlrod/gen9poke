@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
 
 import { getAllPokemonData, type Pokemon } from "~/services";
 import { useInfiniteScroll } from "~/hooks/useInfiniteScroll";
 
 import PokemonCard from "~/components/pokemonCard";
-
-// import data from "~/response.json";
 
 export async function loader() {
   const { next, pokemon: allPokemon } = await getAllPokemonData();
@@ -15,10 +13,13 @@ export async function loader() {
 
 export default function Index() {
   const { next, allPokemon } = useLoaderData();
+  const [pokemon, setPokemon] = useState(allPokemon);
+  const [nextPageQuery, setNextPageQuery] = useState(next);
 
-  const handlePagination = () => {
-    console.log("reached last entry");
-    console.log("should fetch now");
+  const handlePagination = async () => {
+    const { next, pokemon } = await getAllPokemonData(nextPageQuery);
+    setPokemon((prevPokemon) => [...prevPokemon, ...pokemon]);
+    setNextPageQuery(next);
   };
 
   const lastEntryRef = useInfiniteScroll({
@@ -30,14 +31,17 @@ export default function Index() {
     <React.Fragment>
       <h1 className="text-3xl font-bold text-gray-700 my-3">Pokedex</h1>
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
-        {allPokemon &&
-          allPokemon.map((pokemon: Pokemon) => (
-            <PokemonCard
-              key={pokemon.id}
-              pokemon={pokemon}
-              ref={lastEntryRef}
-            />
-          ))}
+        {pokemon &&
+          pokemon.map((p: Pokemon, index: number) => {
+            const isLastListItem = pokemon.length - 1 === index;
+            return (
+              <PokemonCard
+                key={p.id}
+                pokemon={p}
+                ref={isLastListItem ? lastEntryRef : undefined}
+              />
+            );
+          })}
       </div>
     </React.Fragment>
   );

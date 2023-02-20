@@ -20,7 +20,7 @@ export async function fetchPaldeaPokemonIds() {
 }
 
 export async function fetchAllPokemon(
-  nextFetchUrl: string | void
+  nextFetchUrl?: string
 ): Promise<AllPokemonResponse> {
   try {
     const { next, results } = await (
@@ -139,11 +139,11 @@ export async function getPokemonData(pokemonName: string) {
   };
 }
 
-export async function getAllPokemonData(): Promise<{
+export async function getAllPokemonData(nextPageQuery?: string): Promise<{
   next: string;
   pokemon: Pokemon[];
 }> {
-  const { next, pokemon } = await fetchAllPokemon();
+  const { next, pokemon } = await fetchAllPokemon(nextPageQuery || "");
   const pokemonData = await Promise.all(
     pokemon.map(async ({ name }) => {
       return {

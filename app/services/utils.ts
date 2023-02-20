@@ -64,8 +64,8 @@ export function capitalizeFirstLetter(word: string) {
   return `${firstLetter.toUpperCase()}${rest.join("")}`;
 }
 
-export function getPokemonCardBgColor(pokemonType: string) {
-  return pokemonTypeToColor[pokemonType];
+export function getPokemonCardBgColor(pokemonType?: string) {
+  return pokemonType && pokemonTypeToColor[pokemonType];
 }
 
 export function getPokemonTypeIcon(pokemonType: string) {
