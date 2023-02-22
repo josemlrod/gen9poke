@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import { Link } from "@remix-run/react";
 
 import PokemonTypes from "./pokemonTypes";
 import {
@@ -26,9 +27,9 @@ export default forwardRef(function PokemonCard(
   const hyphenatedPokemonName =
     name && replaceSpacesWithHyphens(name.toLowerCase());
   return (
-    <a
+    <Link
       className={`flex flex-col relative rounded-xl p-4 shadow-2xl`}
-      href={`/${hyphenatedPokemonName}/about`}
+      to={`/${hyphenatedPokemonName}/about`}
       ref={ref}
       style={{ backgroundColor: cardBackground, minWidth: 100 }}
     >
@@ -45,6 +46,6 @@ export default forwardRef(function PokemonCard(
           )}.png`}
         />
       </div>
-    </a>
+    </Link>
   );
 });
