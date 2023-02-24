@@ -10,7 +10,7 @@ import {
 
 import styles from "~/tailwind.css";
 
-import Header from "~/components/header";
+import Navigation from "./components/navigation";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -30,6 +30,7 @@ export default function App() {
       <body>
         {/* <Header /> */}
         <Outlet />
+        <Navigation />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
