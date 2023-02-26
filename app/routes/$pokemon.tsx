@@ -1,15 +1,16 @@
-import { Outlet } from "@remix-run/react";
+import { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
 import { type LoaderArgs } from "@remix-run/node";
 
 import PokemonTypes from "~/components/pokemonTypes";
+import PokemonDetailsTab from "~/components/pokemonDetailsTab";
 
 import {
   formatPokemonId,
   getPokemonCardBgColor,
   getPokemonData,
 } from "~/services";
-import PokemonDetailsTab from "~/components/pokemonDetailsTab";
+import { PokemonDetailsTabs } from "~/components/pokemonDetailsTab";
 
 export async function loader({ params }: LoaderArgs) {
   const { pokemon: pokemonName } = params;
@@ -19,7 +20,17 @@ export async function loader({ params }: LoaderArgs) {
 
 export default function PokemonScreen() {
   const data = useLoaderData();
-  const { id, name, types } = data;
+  const { abilities, height, id, name, types, weight } = data;
+
+  const [activeTab, setActiveTab] = useState<string>(PokemonDetailsTabs.ABOUT);
+
+  console.log(data);
+
+  function handleOnActiveTabChange(tabName: string) {
+    return function () {
+      setActiveTab(tabName);
+    };
+  }
 
   const topSectionBgColor =
     types && types.length && getPokemonCardBgColor(types[0].type.name);
@@ -28,7 +39,7 @@ export default function PokemonScreen() {
     <main
       style={{
         backgroundColor: topSectionBgColor,
-        height: `calc(100vh - 68px)`,
+        height: "100vh",
       }}
     >
       <section
@@ -56,8 +67,10 @@ export default function PokemonScreen() {
         className="w-full rounded-t-3xl bg-white pt-2"
         style={{ height: "55%" }}
       >
-        <PokemonDetailsTab pokemonName={name} />
-        <Outlet />
+        <PokemonDetailsTab
+          activeTab={activeTab}
+          onTabChange={handleOnActiveTabChange}
+        />
       </section>
     </main>
   );

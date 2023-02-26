@@ -1,76 +1,60 @@
-import { useMatches } from "@remix-run/react";
-
-import { replaceSpacesWithHyphens } from "~/services";
-
-const PokemonDetailsTabs = {
+export const PokemonDetailsTabs = {
   ABOUT: "about",
   EVOLUTION: "evolution",
   MOVES: "moves",
   STATS: "stats",
 } as const;
-
-function getActiveTab(pathname: string) {
-  const pathnameArray = pathname.split("/");
-  const lastIdx = pathnameArray.length - 1;
-  const tab = pathnameArray[lastIdx];
-  return tab;
+interface Props {
+  activeTab: string;
+  onTabChange: (tabName: string) => () => void;
 }
 
-export default function PokemonDetailsTab({
-  pokemonName,
-}: {
-  pokemonName: string;
-}) {
-  const [, , { pathname }] = useMatches();
-  const activeTab = getActiveTab(pathname);
-
-  const lowerCaseName = pokemonName.toLowerCase();
-  const formattedPokemonName = replaceSpacesWithHyphens(lowerCaseName);
+export default function PokemonDetailsTab({ activeTab, onTabChange }: Props) {
   return (
     <nav className="flex border-b border-gray-100 text-sm font-medium justify-center">
-      <a
-        href={`/${formattedPokemonName}/about`}
+      <span
         className={`-mb-px border-b p-4 hover:text-cyan-500 ${
           (activeTab === PokemonDetailsTabs.ABOUT &&
             "border-current text-cyan-500") ||
           "border-transparent"
         }`}
+        onClick={onTabChange(PokemonDetailsTabs.ABOUT)}
       >
         About
-      </a>
+      </span>
 
-      <a
-        href={`/${formattedPokemonName}/stats`}
+      <span
         className={`-mb-px border-b p-4 hover:text-cyan-500 ${
           (activeTab === PokemonDetailsTabs.STATS &&
             "border-current text-cyan-500") ||
           "border-transparent"
         }`}
+        onClick={onTabChange(PokemonDetailsTabs.STATS)}
       >
         Base Stats
-      </a>
+      </span>
 
-      <a
-        href={`/${formattedPokemonName}/evolution`}
+      <span
         className={`-mb-px border-b p-4 hover:text-cyan-500 ${
           (activeTab === PokemonDetailsTabs.EVOLUTION &&
             "border-current text-cyan-500") ||
           "border-transparent"
         }`}
+        onClick={onTabChange(PokemonDetailsTabs.EVOLUTION)}
       >
         Evolution
-      </a>
+      </span>
 
-      <a
-        href={`/${formattedPokemonName}/moves`}
+      <span
         className={`-mb-px border-b p-4 hover:text-cyan-500 ${
           (activeTab === PokemonDetailsTabs.MOVES &&
             "border-current text-cyan-500") ||
           "border-transparent"
         }`}
+        onClick={onTabChange(PokemonDetailsTabs.MOVES)}
       >
         Moves
-      </a>
+      </span>
     </nav>
   );
 }
