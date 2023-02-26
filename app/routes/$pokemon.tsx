@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLoaderData } from "@remix-run/react";
 import { type LoaderArgs } from "@remix-run/node";
 
+import PokemonAboutTab from "~/components/pokemonAboutTab";
 import PokemonTypes from "~/components/pokemonTypes";
 import PokemonDetailsTab from "~/components/pokemonDetailsTab";
 
@@ -10,7 +11,10 @@ import {
   getPokemonCardBgColor,
   getPokemonData,
 } from "~/services";
-import { PokemonDetailsTabs } from "~/components/pokemonDetailsTab";
+import {
+  PokemonDetailsTabsEnum,
+  type PokemonDetailsTabsValues,
+} from "~/components/pokemonDetailsTab";
 
 export async function loader({ params }: LoaderArgs) {
   const { pokemon: pokemonName } = params;
@@ -22,11 +26,13 @@ export default function PokemonScreen() {
   const data = useLoaderData();
   const { abilities, height, id, name, types, weight } = data;
 
-  const [activeTab, setActiveTab] = useState<string>(PokemonDetailsTabs.ABOUT);
+  const [activeTab, setActiveTab] = useState<PokemonDetailsTabsValues>(
+    PokemonDetailsTabsEnum.ABOUT
+  );
 
   console.log(data);
 
-  function handleOnActiveTabChange(tabName: string) {
+  function handleOnActiveTabChange(tabName: PokemonDetailsTabsValues) {
     return function () {
       setActiveTab(tabName);
     };
@@ -71,6 +77,7 @@ export default function PokemonScreen() {
           activeTab={activeTab}
           onTabChange={handleOnActiveTabChange}
         />
+        {activeTab === PokemonDetailsTabsEnum.ABOUT && <PokemonAboutTab />}
       </section>
     </main>
   );
