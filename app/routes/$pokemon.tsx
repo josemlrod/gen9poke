@@ -77,7 +77,13 @@ export default function PokemonScreen() {
           activeTab={activeTab}
           onTabChange={handleOnActiveTabChange}
         />
-        {activeTab === PokemonDetailsTabsEnum.ABOUT && <PokemonAboutTab />}
+        {activeTab === PokemonDetailsTabsEnum.ABOUT && (
+          <PokemonAboutTab
+            abilities={abilities}
+            height={height}
+            weight={weight}
+          />
+        )}
       </section>
     </main>
   );

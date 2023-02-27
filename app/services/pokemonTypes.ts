@@ -1,5 +1,5 @@
 export type Pokemon = {
-  id: number;
+  id: string;
   name: string;
   typeColor: string;
   abilities: PokemonAbility[];
