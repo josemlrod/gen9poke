@@ -63,13 +63,33 @@ export async function fetchPokemonDataByName(pokemonName: string) {
 
     const formatHeight = (height: number) => {
       const stringHeight = height.toString();
-      if (stringHeight.length === 1) {
-        return `0.${height} m`;
-      } else if (stringHeight.length === 2) {
-        return `${stringHeight[0]}.${stringHeight[1]} m`;
-      } else if (stringHeight.length === 3) {
-        return `${stringHeight[0]}.${stringHeight[1]}${stringHeight[2]} m`;
-      }
+      const formattedHeight = stringHeight.split("").map((str, index) => {
+        if (stringHeight.length - 1 === index) {
+          if (stringHeight.length === 1) {
+            return `0.${str} m`;
+          }
+
+          return `.${str} m`;
+        }
+        return str;
+      });
+
+      return formattedHeight;
+    };
+
+    const formatWeight = (weight: number) => {
+      const stringWeight = weight.toString();
+      const formattedWeight = stringWeight
+        .split("")
+        .map((str, index) => {
+          if (stringWeight.length - 1 === index) {
+            return `.${str} kg`;
+          }
+          return str;
+        })
+        .join("");
+
+      return formattedWeight;
     };
 
     return {
@@ -78,7 +98,7 @@ export async function fetchPokemonDataByName(pokemonName: string) {
       moves,
       stats,
       types,
-      weight,
+      weight: formatWeight(weight),
     };
   } catch (e) {
     console.log(e);
