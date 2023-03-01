@@ -63,16 +63,19 @@ export async function fetchPokemonDataByName(pokemonName: string) {
 
     const formatHeight = (height: number) => {
       const stringHeight = height.toString();
-      const formattedHeight = stringHeight.split("").map((str, index) => {
-        if (stringHeight.length - 1 === index) {
-          if (stringHeight.length === 1) {
-            return `0.${str} m`;
-          }
+      const formattedHeight = stringHeight
+        .split("")
+        .map((str, index) => {
+          if (stringHeight.length - 1 === index) {
+            if (stringHeight.length === 1) {
+              return `0.${str} m`;
+            }
 
-          return `.${str} m`;
-        }
-        return str;
-      });
+            return `.${str} m`;
+          }
+          return str;
+        })
+        .join("");
 
       return formattedHeight;
     };
