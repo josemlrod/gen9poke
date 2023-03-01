@@ -1,9 +1,11 @@
 import type {
   AllPokemonResponse,
   Pokemon,
+  PokemonAbility,
   PokemonEntry,
   PokemonName,
 } from "./index";
+import { replaceHyphensWithSpaces } from "./index";
 
 export async function fetchPaldeaPokemonIds() {
   try {
@@ -54,7 +56,9 @@ export async function fetchPokemonDataById(pokemonId: number) {
   }
 }
 
-export async function fetchPokemonDataByName(pokemonName: string) {
+export async function fetchPokemonDataByName(
+  pokemonName: string
+): Promise<Omit<Pokemon, "id" | "name" | "typeColor"> | void> {
   // lycanroc is not found
   try {
     const { abilities, height, moves, stats, types, weight } = await (
@@ -95,8 +99,18 @@ export async function fetchPokemonDataByName(pokemonName: string) {
       return formattedWeight;
     };
 
+    const formattedAbilities = abilities.map((ability: PokemonAbility) => {
+      return {
+        ...ability,
+        ability: {
+          ...ability.ability,
+          name: replaceHyphensWithSpaces(ability.ability.name),
+        },
+      };
+    });
+
     return {
-      abilities,
+      abilities: formattedAbilities,
       height: formatHeight(height),
       moves,
       stats,

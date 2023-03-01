@@ -84,3 +84,11 @@ export function replaceSpacesWithHyphens(word: string) {
   const splitAtSpaces = word.split(" ");
   return splitAtSpaces.join("-");
 }
+
+export function replaceHyphensWithSpaces(word: string) {
+  const splitAtHyphens = word.split("-");
+  const capitalizedWords = splitAtHyphens.map((word) =>
+    capitalizeFirstLetter(word)
+  );
+  return capitalizedWords.join(" ");
+}

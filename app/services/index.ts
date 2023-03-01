@@ -15,12 +15,14 @@ import {
   getPokemonCardBgColor,
   getPokemonTypeIcon,
   formatPokemonId,
+  replaceHyphensWithSpaces,
   replaceSpacesWithHyphens,
 } from "./utils";
 
 import type {
   AllPokemonResponse,
   Pokemon,
+  PokemonAbility,
   PokemonEntry,
   PokemonName,
   PokemonType,
@@ -40,9 +42,11 @@ export {
   getAllPokemonData,
   getPokemonData,
   getPokemonTypeIcon,
+  replaceHyphensWithSpaces,
   replaceSpacesWithHyphens,
   AllPokemonResponse,
   Pokemon,
+  PokemonAbility,
   PokemonEntry,
   PokemonName,
   PokemonType,

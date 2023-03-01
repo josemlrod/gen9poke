@@ -12,6 +12,18 @@ export default function PokemonAboutTab({ abilities, height, weight }: Props) {
     <section>
       <p>Height: {height}</p>
       <p>Weight: {weight}</p>
+      <p>
+        {"Abilities: "}
+        {abilities.map(({ ability: { name }, is_hidden: isHidden }, index) => {
+          const isFirstAbility = index === 0;
+          return (
+            <span key={index}>
+              {(isFirstAbility && name) || `, ${name}`}
+              {isHidden && " (Hidden Ability)"}
+            </span>
+          );
+        })}
+      </p>
     </section>
   );
 }
