@@ -57,7 +57,7 @@ export type PokemonName = {
 
 export type PokemonStats = {
   base_stat: number;
-  effor: number;
+  effort: number;
   stat: {
     name: string;
     url: string;

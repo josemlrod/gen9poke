@@ -3,6 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { type LoaderArgs } from "@remix-run/node";
 
 import PokemonAboutTab from "~/components/pokemonAboutTab";
+import PokemonStatsTab from "~/components/pokemonStatsTab";
 import PokemonTypes from "~/components/pokemonTypes";
 import PokemonDetailsTab from "~/components/pokemonDetailsTab";
 
@@ -24,7 +25,7 @@ export async function loader({ params }: LoaderArgs) {
 
 export default function PokemonScreen() {
   const data = useLoaderData();
-  const { abilities, height, id, name, types, weight } = data;
+  const { abilities, height, id, name, stats, types, weight } = data;
 
   const [activeTab, setActiveTab] = useState<PokemonDetailsTabsValues>(
     PokemonDetailsTabsEnum.ABOUT
@@ -83,6 +84,9 @@ export default function PokemonScreen() {
             height={height}
             weight={weight}
           />
+        )}
+        {activeTab === PokemonDetailsTabsEnum.STATS && (
+          <PokemonStatsTab stats={stats} />
         )}
       </section>
     </main>

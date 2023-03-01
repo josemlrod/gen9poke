@@ -25,6 +25,7 @@ import type {
   PokemonAbility,
   PokemonEntry,
   PokemonName,
+  PokemonStats,
   PokemonType,
 } from "./pokemonTypes";
 
@@ -49,5 +50,6 @@ export {
   PokemonAbility,
   PokemonEntry,
   PokemonName,
+  PokemonStats,
   PokemonType,
 };
