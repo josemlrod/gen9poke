@@ -7,7 +7,7 @@ type Props = Omit<
 
 export default function PokemonAboutTab({ abilities, height, weight }: Props) {
   return (
-    <section className="p-6 grid grid-cols-3 gap-2">
+    <section className="p-6 grid grid-cols-3 gap-4">
       <span>Height:</span>
       <span className="col-span-2">{height}</span>
 
