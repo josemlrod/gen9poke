@@ -49,7 +49,7 @@ export default function PokemonScreen() {
       }}
     >
       <section
-        className="w-full"
+        className="w-full px-4 pt-2"
         style={{ backgroundColor: topSectionBgColor, height: "45%" }}
       >
         <div className="flex flex-row justify-between">
