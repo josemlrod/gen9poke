@@ -1,5 +1,6 @@
-import type {
+import {
   AllPokemonResponse,
+  capitalizeFirstLetter,
   Pokemon,
   PokemonAbility,
   PokemonEntry,
@@ -109,11 +110,22 @@ export async function fetchPokemonDataByName(
       };
     });
 
+    const formattedStats = stats.map((stat) => {
+      return {
+        ...stat,
+        stat: {
+          ...stat.stat,
+          name: replaceHyphensWithSpaces(stat.stat.name),
+        },
+      };
+    });
+
     return {
       abilities: formattedAbilities,
       height: formatHeight(height),
       moves,
-      stats,
+      stats: formattedStats,
+      // stats,
       types,
       weight: formatWeight(weight),
     };

@@ -92,3 +92,33 @@ export function replaceHyphensWithSpaces(word: string) {
   );
   return capitalizedWords.join(" ");
 }
+
+export const mapStatValueToStyles = (
+  statValue: number,
+  isTotalStat?: boolean
+) => {
+  const dividedStatValue = isTotalStat
+    ? Math.round(statValue)
+    : Math.round(statValue / 2);
+  if (dividedStatValue <= 25) {
+    return {
+      progressBarWidth: `${dividedStatValue}%`,
+      progressBarBackgroundColor: "bg-red-600",
+    };
+  } else if (dividedStatValue >= 75) {
+    return {
+      progressBarWidth: `${dividedStatValue}%`,
+      progressBarBackgroundColor: "bg-blue-600",
+    };
+  } else if (dividedStatValue > 25 && dividedStatValue < 50) {
+    return {
+      progressBarWidth: `${dividedStatValue}%`,
+      progressBarBackgroundColor: "bg-yellow-400",
+    };
+  } else {
+    return {
+      progressBarWidth: `${dividedStatValue}%`,
+      progressBarBackgroundColor: "bg-green-600",
+    };
+  }
+};

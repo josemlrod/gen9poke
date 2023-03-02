@@ -15,6 +15,7 @@ import {
   getPokemonCardBgColor,
   getPokemonTypeIcon,
   formatPokemonId,
+  mapStatValueToStyles,
   replaceHyphensWithSpaces,
   replaceSpacesWithHyphens,
 } from "./utils";
@@ -43,6 +44,7 @@ export {
   getAllPokemonData,
   getPokemonData,
   getPokemonTypeIcon,
+  mapStatValueToStyles,
   replaceHyphensWithSpaces,
   replaceSpacesWithHyphens,
   AllPokemonResponse,
