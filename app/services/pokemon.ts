@@ -15,6 +15,34 @@ export const MoveLearningMethods = {
   Tutor: "tutor",
 };
 
+export const formatPokemonEvolutionChain = (chain) => {
+  const extractedEvolvesTo = [];
+
+  function extractEvolvesTo(evolvesTo) {
+    if (evolvesTo.length) {
+      const [nextPokemon] = evolvesTo;
+      const nextEvolution = {
+        evolutionName: replaceHyphensWithSpaces(nextPokemon.species.name),
+        evolutionTrigger: replaceHyphensWithSpaces(
+          nextPokemon.evolution_details[0].trigger.name
+        ),
+        evolutionTriggerDetails: nextPokemon.evolution_details[0].min_level,
+      };
+      extractedEvolvesTo.push(nextEvolution);
+      extractEvolvesTo(nextPokemon.evolves_to);
+    }
+
+    return;
+  }
+
+  extractEvolvesTo(chain.evolves_to);
+
+  return {
+    firstPokemonSpecies: replaceHyphensWithSpaces(chain.species.name),
+    nextPokemonEvolutions: extractedEvolvesTo,
+  };
+};
+
 export async function fetchPaldeaPokemonIds() {
   try {
     const { pokemon_entries: pokemonEntries } = await (
@@ -72,6 +100,14 @@ export async function fetchPokemonDataByName(
     const { abilities, height, moves, stats, types, weight } = await (
       await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}/`)
     ).json();
+
+    const {
+      evolution_chain: { url },
+    } = await (
+      await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonName}/`)
+    ).json();
+    const { chain } = await (await fetch(url)).json();
+    const formattedChain = formatPokemonEvolutionChain(chain);
 
     const formatHeight = (height: number) => {
       const stringHeight = height.toString();
@@ -161,6 +197,7 @@ export async function fetchPokemonDataByName(
 
     return {
       abilities: formattedAbilities,
+      evolution: formattedChain,
       height: formatHeight(height),
       moves: formattedMoves,
       stats: formattedStats,

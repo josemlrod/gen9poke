@@ -27,13 +27,21 @@ export async function loader({ params }: LoaderArgs) {
 
 export default function PokemonScreen() {
   const data = useLoaderData();
-  const { abilities, height, id, moves, name, stats, types, weight } = data;
+  const {
+    abilities,
+    evolution,
+    height,
+    id,
+    moves,
+    name,
+    stats,
+    types,
+    weight,
+  } = data;
 
   const [activeTab, setActiveTab] = useState<PokemonDetailsTabsValues>(
     PokemonDetailsTabsEnum.ABOUT
   );
-
-  console.log(data);
 
   function handleOnActiveTabChange(tabName: PokemonDetailsTabsValues) {
     return function () {
@@ -91,7 +99,7 @@ export default function PokemonScreen() {
           <PokemonStatsTab stats={stats} />
         )}
         {activeTab === PokemonDetailsTabsEnum.EVOLUTION && (
-          <PokemonEvolutionTab />
+          <PokemonEvolutionTab evolution={evolution} />
         )}
         {activeTab === PokemonDetailsTabsEnum.MOVES && (
           <PokemonMovesTab moves={moves} />
