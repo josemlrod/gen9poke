@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import React from "react";
 
 export function PokemonEvolutionTab({ evolution }) {
@@ -34,11 +35,13 @@ export function PokemonEvolutionTab({ evolution }) {
               <React.Fragment key={index}>
                 <div className="grid grid-flow-col grid-cols-3">
                   <div className="flex flex-col">
-                    <img
-                      alt="pokemon"
-                      className="w-30"
-                      src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${firstPokemonSpeciesId}.png`}
-                    />
+                    <Link to={`/${firstPokemonSpecies.toLowerCase()}`}>
+                      <img
+                        alt="pokemon"
+                        className="w-30"
+                        src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${firstPokemonSpeciesId}.png`}
+                      />
+                    </Link>
                     <p className="text-center">{firstPokemonSpecies}</p>
                   </div>
                   <div className="flex items-center justify-center flex-col">
@@ -63,12 +66,14 @@ export function PokemonEvolutionTab({ evolution }) {
                     </div>
                   </div>
                   <div>
-                    <img
-                      alt="pokemon"
-                      className="w-30"
-                      src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${evolutionId}.png`}
-                    />
-                    <p className="text-center">{evolutionName}</p>
+                    <Link to={`/${evolutionName.toLowerCase()}`}>
+                      <img
+                        alt="pokemon"
+                        className="w-30"
+                        src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${evolutionId}.png`}
+                      />
+                      <p className="text-center">{evolutionName}</p>
+                    </Link>
                   </div>
                 </div>
                 {!isLastElement && dividerElement}
@@ -81,12 +86,14 @@ export function PokemonEvolutionTab({ evolution }) {
             <React.Fragment key={index}>
               <div className="grid grid-flow-col grid-cols-3">
                 <div className="flex flex-col">
-                  <img
-                    alt="pokemon"
-                    className="w-30"
-                    src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${prevEvolution.evolutionId}.png`}
-                  />
-                  <p className="text-center">{prevEvolution.evolutionName}</p>
+                  <Link to={`/${prevEvolution.evolutionName.toLowerCase()}`}>
+                    <img
+                      alt="pokemon"
+                      className="w-30"
+                      src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${prevEvolution.evolutionId}.png`}
+                    />
+                    <p className="text-center">{prevEvolution.evolutionName}</p>
+                  </Link>
                 </div>
                 <div className="flex items-center justify-center flex-col">
                   <svg
@@ -110,12 +117,14 @@ export function PokemonEvolutionTab({ evolution }) {
                   </div>
                 </div>
                 <div>
-                  <img
-                    alt="pokemon"
-                    className="w-30"
-                    src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${evolutionId}.png`}
-                  />
-                  <p className="text-center">{evolutionName}</p>
+                  <Link to={`/${evolutionName.toLowerCase()}`}>
+                    <img
+                      alt="pokemon"
+                      className="w-30"
+                      src={`https://assets.pokemon.com/assets/cms2/img/pokedex/full/${evolutionId}.png`}
+                    />
+                    <p className="text-center">{evolutionName}</p>
+                  </Link>
                 </div>
               </div>
               {!isLastElement && dividerElement}
