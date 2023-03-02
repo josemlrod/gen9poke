@@ -15,13 +15,14 @@ export const MoveLearningMethods = {
   Tutor: "tutor",
 };
 
-export const formatPokemonEvolutionChain = (chain) => {
+export async function formatPokemonEvolutionChain(chain) {
   const extractedEvolvesTo = [];
 
-  function extractEvolvesTo(evolvesTo) {
+  async function extractEvolvesTo(evolvesTo) {
     if (evolvesTo.length) {
       const [nextPokemon] = evolvesTo;
       const nextEvolution = {
+        evolutionId: await getPokemonIdByName(nextPokemon.species.name),
         evolutionName: replaceHyphensWithSpaces(nextPokemon.species.name),
         evolutionTrigger: replaceHyphensWithSpaces(
           nextPokemon.evolution_details[0].trigger.name
@@ -29,19 +30,20 @@ export const formatPokemonEvolutionChain = (chain) => {
         evolutionTriggerDetails: nextPokemon.evolution_details[0].min_level,
       };
       extractedEvolvesTo.push(nextEvolution);
-      extractEvolvesTo(nextPokemon.evolves_to);
+      await extractEvolvesTo(nextPokemon.evolves_to);
     }
 
     return;
   }
 
-  extractEvolvesTo(chain.evolves_to);
+  await extractEvolvesTo(chain.evolves_to);
 
   return {
     firstPokemonSpecies: replaceHyphensWithSpaces(chain.species.name),
+    firstPokemonSpeciesId: await getPokemonIdByName(chain.species.name),
     nextPokemonEvolutions: extractedEvolvesTo,
   };
-};
+}
 
 export async function fetchPaldeaPokemonIds() {
   try {
@@ -107,7 +109,7 @@ export async function fetchPokemonDataByName(
       await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonName}/`)
     ).json();
     const { chain } = await (await fetch(url)).json();
-    const formattedChain = formatPokemonEvolutionChain(chain);
+    const formattedChain = await formatPokemonEvolutionChain(chain);
 
     const formatHeight = (height: number) => {
       const stringHeight = height.toString();
@@ -204,6 +206,15 @@ export async function fetchPokemonDataByName(
       types,
       weight: formatWeight(weight),
     };
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function getPokemonIdByName(name: string) {
+  try {
+    const { id } = await fetchPokemonSpeciesByName(name);
+    return id;
   } catch (e) {
     console.log(e);
   }

@@ -1,6 +1,7 @@
 export function PokemonEvolutionTab({ evolution }) {
   const { firstPokemonSpecies, nextPokemonEvolutions } = evolution;
   console.log(evolution);
+
   return (
     <section className="grid grid-flow-row p-6">
       <h1 className="mb-4">Evolution chain</h1>
