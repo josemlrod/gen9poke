@@ -28,6 +28,7 @@ export type PokemonEntry = {
 };
 
 export type PokemonMove = {
+  learnedBy: string;
   move: {
     name: string;
     url: string;

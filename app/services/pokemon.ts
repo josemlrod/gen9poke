@@ -8,6 +8,13 @@ import {
 } from "./index";
 import { replaceHyphensWithSpaces } from "./index";
 
+export const MoveLearningMethods = {
+  Egg: "egg",
+  LevelingUp: "level-up",
+  Machine: "machine",
+  Tutor: "tutor",
+};
+
 export async function fetchPaldeaPokemonIds() {
   try {
     const { pokemon_entries: pokemonEntries } = await (
@@ -120,12 +127,43 @@ export async function fetchPokemonDataByName(
       };
     });
 
+    const formattedMoves = moves.map((move) => {
+      const [{ move_learn_method: moveLearnMethod }] =
+        move.version_group_details;
+
+      let learnedBy;
+      switch (moveLearnMethod.name) {
+        case MoveLearningMethods.Egg:
+          learnedBy = MoveLearningMethods.Egg;
+          break;
+        case MoveLearningMethods.LevelingUp:
+          learnedBy = MoveLearningMethods.LevelingUp;
+          break;
+        case MoveLearningMethods.Machine:
+          learnedBy = MoveLearningMethods.Machine;
+          break;
+        case MoveLearningMethods.Tutor:
+          learnedBy = MoveLearningMethods.Tutor;
+          break;
+        default:
+          break;
+      }
+
+      return {
+        learnedBy,
+        ...move,
+        move: {
+          ...move.move,
+          name: replaceHyphensWithSpaces(move.move.name),
+        },
+      };
+    });
+
     return {
       abilities: formattedAbilities,
       height: formatHeight(height),
-      moves,
+      moves: formattedMoves,
       stats: formattedStats,
-      // stats,
       types,
       weight: formatWeight(weight),
     };

@@ -16,6 +16,8 @@ import {
   PokemonDetailsTabsEnum,
   type PokemonDetailsTabsValues,
 } from "~/components/pokemonDetailsTab";
+import { PokemonEvolutionTab } from "~/components/pokemonEvolutionTab";
+import { PokemonMovesTab } from "~/components/pokemonMovesTab";
 
 export async function loader({ params }: LoaderArgs) {
   const { pokemon: pokemonName } = params;
@@ -25,7 +27,7 @@ export async function loader({ params }: LoaderArgs) {
 
 export default function PokemonScreen() {
   const data = useLoaderData();
-  const { abilities, height, id, name, stats, types, weight } = data;
+  const { abilities, height, id, moves, name, stats, types, weight } = data;
 
   const [activeTab, setActiveTab] = useState<PokemonDetailsTabsValues>(
     PokemonDetailsTabsEnum.ABOUT
@@ -55,7 +57,7 @@ export default function PokemonScreen() {
       >
         <div className="flex flex-row justify-between">
           <p className="text-3xl font-bold text-gray-100">{name}</p>
-          <p className="font-bold text-gray-100">#{id}</p>
+          <p className="font-bold text-gray-100 text-3xl">#{id}</p>
         </div>
         <div className="flex flex-row gap-1">
           {types && types.length && <PokemonTypes types={types} />}
@@ -87,6 +89,12 @@ export default function PokemonScreen() {
         )}
         {activeTab === PokemonDetailsTabsEnum.STATS && (
           <PokemonStatsTab stats={stats} />
+        )}
+        {activeTab === PokemonDetailsTabsEnum.EVOLUTION && (
+          <PokemonEvolutionTab />
+        )}
+        {activeTab === PokemonDetailsTabsEnum.MOVES && (
+          <PokemonMovesTab moves={moves} />
         )}
       </section>
     </main>
