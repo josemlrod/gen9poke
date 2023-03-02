@@ -15,6 +15,10 @@ export const MoveLearningMethods = {
   Tutor: "tutor",
 };
 
+export enum EvolutionTriggerTypes {
+  "level-up" = "Lvl",
+}
+
 export async function formatPokemonEvolutionChain(chain) {
   const extractedEvolvesTo = [];
 
@@ -24,9 +28,8 @@ export async function formatPokemonEvolutionChain(chain) {
       const nextEvolution = {
         evolutionId: await getPokemonIdByName(nextPokemon.species.name),
         evolutionName: replaceHyphensWithSpaces(nextPokemon.species.name),
-        evolutionTrigger: replaceHyphensWithSpaces(
-          nextPokemon.evolution_details[0].trigger.name
-        ),
+        evolutionTrigger:
+          EvolutionTriggerTypes[nextPokemon.evolution_details[0].trigger.name],
         evolutionTriggerDetails: nextPokemon.evolution_details[0].min_level,
       };
       extractedEvolvesTo.push(nextEvolution);
