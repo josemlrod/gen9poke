@@ -29,6 +29,7 @@ export default function PokemonScreen() {
   const data = useLoaderData();
   const {
     abilities,
+    description,
     evolution,
     height,
     id,
@@ -38,6 +39,8 @@ export default function PokemonScreen() {
     types,
     weight,
   } = data;
+
+  console.log("description: ", description);
 
   const [activeTab, setActiveTab] = useState<PokemonDetailsTabsValues>(
     PokemonDetailsTabsEnum.ABOUT
@@ -91,6 +94,7 @@ export default function PokemonScreen() {
         {activeTab === PokemonDetailsTabsEnum.ABOUT && (
           <PokemonAboutTab
             abilities={abilities}
+            description={description}
             height={height}
             weight={weight}
           />

@@ -5,9 +5,16 @@ type Props = Omit<
   "id" | "name" | "typeColor" | "moves" | "stats" | "types"
 >;
 
-export default function PokemonAboutTab({ abilities, height, weight }: Props) {
+export default function PokemonAboutTab({
+  abilities,
+  description,
+  height,
+  weight,
+}: Props) {
   return (
     <section className="p-6 grid grid-cols-3 gap-4">
+      <div className="col-span-3">{description}</div>
+
       <span>Height:</span>
       <span className="col-span-2">{height}</span>
 
