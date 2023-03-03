@@ -102,113 +102,118 @@ export async function fetchPokemonDataByName(
 ): Promise<Omit<Pokemon, "id" | "name" | "typeColor"> | void> {
   // lycanroc is not found
   try {
-    const { abilities, height, moves, stats, types, weight } = await (
-      await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}/`)
-    ).json();
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${pokemonName}/`
+    );
 
-    const {
-      evolution_chain: { url },
-    } = await (
-      await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonName}/`)
-    ).json();
-    const { chain } = await (await fetch(url)).json();
-    const formattedChain = await formatPokemonEvolutionChain(chain);
+    if (response.ok) {
+      const { abilities, height, moves, stats, types, weight } =
+        await response.json();
 
-    const formatHeight = (height: number) => {
-      const stringHeight = height.toString();
-      const formattedHeight = stringHeight
-        .split("")
-        .map((str, index) => {
-          if (stringHeight.length - 1 === index) {
-            if (stringHeight.length === 1) {
-              return `0.${str} m`;
+      const {
+        evolution_chain: { url },
+      } = await (
+        await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonName}/`)
+      ).json();
+      const { chain } = await (await fetch(url)).json();
+      const formattedChain = await formatPokemonEvolutionChain(chain);
+
+      const formatHeight = (height: number) => {
+        const stringHeight = height.toString();
+        const formattedHeight = stringHeight
+          .split("")
+          .map((str, index) => {
+            if (stringHeight.length - 1 === index) {
+              if (stringHeight.length === 1) {
+                return `0.${str} m`;
+              }
+
+              return `.${str} m`;
             }
+            return str;
+          })
+          .join("");
 
-            return `.${str} m`;
-          }
-          return str;
-        })
-        .join("");
-
-      return formattedHeight;
-    };
-
-    const formatWeight = (weight: number) => {
-      const stringWeight = weight.toString();
-      const formattedWeight = stringWeight
-        .split("")
-        .map((str, index) => {
-          if (stringWeight.length - 1 === index) {
-            return `.${str} kg`;
-          }
-          return str;
-        })
-        .join("");
-
-      return formattedWeight;
-    };
-
-    const formattedAbilities = abilities.map((ability: PokemonAbility) => {
-      return {
-        ...ability,
-        ability: {
-          ...ability.ability,
-          name: replaceHyphensWithSpaces(ability.ability.name),
-        },
+        return formattedHeight;
       };
-    });
 
-    const formattedStats = stats.map((stat) => {
-      return {
-        ...stat,
-        stat: {
-          ...stat.stat,
-          name: replaceHyphensWithSpaces(stat.stat.name),
-        },
+      const formatWeight = (weight: number) => {
+        const stringWeight = weight.toString();
+        const formattedWeight = stringWeight
+          .split("")
+          .map((str, index) => {
+            if (stringWeight.length - 1 === index) {
+              return `.${str} kg`;
+            }
+            return str;
+          })
+          .join("");
+
+        return formattedWeight;
       };
-    });
 
-    const formattedMoves = moves.map((move) => {
-      const [{ move_learn_method: moveLearnMethod }] =
-        move.version_group_details;
+      const formattedAbilities = abilities.map((ability: PokemonAbility) => {
+        return {
+          ...ability,
+          ability: {
+            ...ability.ability,
+            name: replaceHyphensWithSpaces(ability.ability.name),
+          },
+        };
+      });
 
-      let learnedBy;
-      switch (moveLearnMethod.name) {
-        case MoveLearningMethods.Egg:
-          learnedBy = MoveLearningMethods.Egg;
-          break;
-        case MoveLearningMethods.LevelingUp:
-          learnedBy = MoveLearningMethods.LevelingUp;
-          break;
-        case MoveLearningMethods.Machine:
-          learnedBy = MoveLearningMethods.Machine;
-          break;
-        case MoveLearningMethods.Tutor:
-          learnedBy = MoveLearningMethods.Tutor;
-          break;
-        default:
-          break;
-      }
+      const formattedStats = stats.map((stat) => {
+        return {
+          ...stat,
+          stat: {
+            ...stat.stat,
+            name: replaceHyphensWithSpaces(stat.stat.name),
+          },
+        };
+      });
+
+      const formattedMoves = moves.map((move) => {
+        const [{ move_learn_method: moveLearnMethod }] =
+          move.version_group_details;
+
+        let learnedBy;
+        switch (moveLearnMethod.name) {
+          case MoveLearningMethods.Egg:
+            learnedBy = MoveLearningMethods.Egg;
+            break;
+          case MoveLearningMethods.LevelingUp:
+            learnedBy = MoveLearningMethods.LevelingUp;
+            break;
+          case MoveLearningMethods.Machine:
+            learnedBy = MoveLearningMethods.Machine;
+            break;
+          case MoveLearningMethods.Tutor:
+            learnedBy = MoveLearningMethods.Tutor;
+            break;
+          default:
+            break;
+        }
+
+        return {
+          learnedBy,
+          ...move,
+          move: {
+            ...move.move,
+            name: replaceHyphensWithSpaces(move.move.name),
+          },
+        };
+      });
 
       return {
-        learnedBy,
-        ...move,
-        move: {
-          ...move.move,
-          name: replaceHyphensWithSpaces(move.move.name),
-        },
+        abilities: formattedAbilities,
+        evolution: formattedChain,
+        height: formatHeight(height),
+        moves: formattedMoves,
+        stats: formattedStats,
+        types,
+        weight: formatWeight(weight),
       };
-    });
-
-    return {
-      abilities: formattedAbilities,
-      evolution: formattedChain,
-      height: formatHeight(height),
-      moves: formattedMoves,
-      stats: formattedStats,
-      types,
-      weight: formatWeight(weight),
-    };
+    }
   } catch (e) {
     console.log(e);
   }
@@ -247,26 +252,30 @@ export async function fetchPokemonSpeciesById(pokemonId: number) {
 
 export async function fetchPokemonSpeciesByName(pokemonName: string) {
   try {
-    const {
-      color: { name: typeColor },
-      flavor_text_entries: flavorTextEntries,
-      id,
-      names,
-    } = (await (
-      await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonName}/`)
-    ).json()) || {};
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/pokemon-species/${pokemonName}/`
+    );
 
-    const name = getPokemonName(names);
-    const formattedId = id.toString().padStart(3, "0");
-    const description =
-      (flavorTextEntries.length && flavorTextEntries[0].flavor_text) || "";
+    if (response.ok) {
+      const {
+        color: { name: typeColor },
+        flavor_text_entries: flavorTextEntries,
+        id,
+        names,
+      } = response.json();
 
-    return {
-      description,
-      id: formattedId,
-      name,
-      typeColor,
-    };
+      const name = getPokemonName(names);
+      const formattedId = id.toString().padStart(3, "0");
+      const description =
+        (flavorTextEntries.length && flavorTextEntries[0].flavor_text) || "";
+
+      return {
+        description,
+        id: formattedId,
+        name,
+        typeColor,
+      };
+    }
   } catch (e) {
     console.log(e);
   }
@@ -287,10 +296,14 @@ export async function getPaldeaPokemonData() {
 }
 
 export async function getPokemonData(pokemonName: string) {
-  return {
-    ...(await fetchPokemonSpeciesByName(pokemonName)),
-    ...(await fetchPokemonDataByName(pokemonName)),
-  };
+  try {
+    return {
+      ...(await fetchPokemonSpeciesByName(pokemonName)),
+      ...(await fetchPokemonDataByName(pokemonName)),
+    };
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export async function getAllPokemonData(nextPageQuery?: string): Promise<{
