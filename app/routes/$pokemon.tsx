@@ -40,8 +40,6 @@ export default function PokemonScreen() {
     weight,
   } = data;
 
-  console.log("description: ", description);
-
   const [activeTab, setActiveTab] = useState<PokemonDetailsTabsValues>(
     PokemonDetailsTabsEnum.ABOUT
   );

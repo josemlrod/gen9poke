@@ -258,7 +258,8 @@ export async function fetchPokemonSpeciesByName(pokemonName: string) {
 
     const name = getPokemonName(names);
     const formattedId = id.toString().padStart(3, "0");
-    const [{ flavor_text: description }] = flavorTextEntries;
+    const description =
+      (flavorTextEntries.length && flavorTextEntries[0].flavor_text) || "";
 
     return {
       description,
