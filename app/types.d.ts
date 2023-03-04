@@ -1,9 +1,6 @@
 /**
  * COMPONENT PROP TYPES
  */
-
-import { PokemonEntry } from "./services/pokemonTypes";
-
 export interface FlavorTextEntries {
   flavor_text: string;
   language: PokemonEntity;
@@ -19,7 +16,13 @@ export interface NextPokemonEvolution {
 
 export interface PokedexNumber {
   entry_number: number;
-  pokedex: PokemonEntry;
+  pokedex: {
+    entry_number: number;
+    pokemon_species: {
+      name: string;
+      url: string;
+    };
+  };
 }
 
 export interface Pokemon {
