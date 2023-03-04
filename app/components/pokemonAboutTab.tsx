@@ -1,9 +1,6 @@
-import { type Pokemon } from "~/services";
+import { type Pokemon } from "~/types";
 
-type Props = Omit<
-  Pokemon,
-  "id" | "name" | "typeColor" | "moves" | "stats" | "types"
->;
+type Props = Pick<Pokemon, "abilities" | "description" | "height" | "weight">;
 
 export default function PokemonAboutTab({
   abilities,
@@ -23,15 +20,16 @@ export default function PokemonAboutTab({
 
       <span>Abilities:</span>
       <span className="col-span-2">
-        {abilities.map(({ ability: { name }, is_hidden: isHidden }, index) => {
-          const isFirstAbility = index === 0;
-          return (
-            <span key={index}>
-              {(isFirstAbility && name) || `, ${name}`}
-              {isHidden && " (Hidden Ability)"}
-            </span>
-          );
-        })}
+        {abilities &&
+          abilities.map(({ ability: { name }, is_hidden: isHidden }, index) => {
+            const isFirstAbility = index === 0;
+            return (
+              <span key={index}>
+                {(isFirstAbility && name) || `, ${name}`}
+                {isHidden && " (Hidden Ability)"}
+              </span>
+            );
+          })}
       </span>
     </section>
   );

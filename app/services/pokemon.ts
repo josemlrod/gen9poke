@@ -1,12 +1,17 @@
 import {
   AllPokemonResponse,
   capitalizeFirstLetter,
-  Pokemon,
   PokemonAbility,
   PokemonEntry,
   PokemonName,
 } from "./index";
 import { replaceHyphensWithSpaces } from "./index";
+
+import {
+  FetchPokemonSpeciesResponse,
+  PokemonSpecies,
+  type Pokemon,
+} from "~/types";
 
 export const MoveLearningMethods = {
   Egg: "egg",
@@ -99,7 +104,7 @@ export async function fetchPokemonDataById(pokemonId: number) {
 
 export async function fetchPokemonDataByName(
   pokemonName: string
-): Promise<Omit<Pokemon, "id" | "name" | "typeColor"> | void> {
+): Promise<Partial<Pokemon> | void> {
   // lycanroc is not found
   try {
     const response = await fetch(
@@ -250,7 +255,9 @@ export async function fetchPokemonSpeciesById(pokemonId: number) {
   }
 }
 
-export async function fetchPokemonSpeciesByName(pokemonName: string) {
+export async function fetchPokemonSpeciesByName(
+  pokemonName: string
+): Promise<PokemonSpecies | void> {
   try {
     const response = await fetch(
       `https://pokeapi.co/api/v2/pokemon-species/${pokemonName}/`
@@ -262,7 +269,7 @@ export async function fetchPokemonSpeciesByName(pokemonName: string) {
         flavor_text_entries: flavorTextEntries,
         id,
         names,
-      } = response.json();
+      }: FetchPokemonSpeciesResponse = await response.json();
 
       const name = getPokemonName(names);
       const formattedId = id.toString().padStart(3, "0");

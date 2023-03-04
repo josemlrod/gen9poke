@@ -20,16 +20,6 @@ import {
   replaceSpacesWithHyphens,
 } from "./utils";
 
-import type {
-  AllPokemonResponse,
-  Pokemon,
-  PokemonAbility,
-  PokemonEntry,
-  PokemonName,
-  PokemonStats,
-  PokemonType,
-} from "./pokemonTypes";
-
 export {
   capitalizeFirstLetter,
   fetchAllPokemon,
@@ -47,11 +37,4 @@ export {
   mapStatValueToStyles,
   replaceHyphensWithSpaces,
   replaceSpacesWithHyphens,
-  AllPokemonResponse,
-  Pokemon,
-  PokemonAbility,
-  PokemonEntry,
-  PokemonName,
-  PokemonStats,
-  PokemonType,
 };
