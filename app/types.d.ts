@@ -12,6 +12,8 @@ export type PokemonSpecies = Pick<
 
 export type PokemonStats = Pick<Pokemon, "stats">;
 
+export type PokemonTypes = Pick<Pokemon, "types">;
+
 export interface FlavorTextEntries {
   flavor_text: string;
   language: PokemonEntity;
