@@ -1,4 +1,12 @@
 /**
+ * ENUMS
+ */
+
+export enum EvolutionTriggerTypes {
+  "level-up" = "Lvl",
+}
+
+/**
  * COMPONENT PROP TYPES
  */
 export type PokemonEvolutions = Pick<Pokemon, "evolution">;
@@ -21,8 +29,8 @@ export interface FlavorTextEntries {
 export interface NextPokemonEvolution {
   evolutionId: string;
   evolutionName: string;
-  evolutionTrigger: string;
-  evolutionTriggerDetails: string;
+  evolutionTrigger: keyof EvolutionTriggerTypes;
+  evolutionTriggerDetails: number;
 }
 
 export interface PokedexNumber {
@@ -98,6 +106,50 @@ export type Url = Pick<PokemonEntity, "url">;
 /**
  * API RESPONSE TYPES
  */
+
+interface EvolutionDetails {
+  gender: string | null;
+  held_item: string | null;
+  item: string | null;
+  known_move: string | null;
+  known_move_type: string | null;
+  location: string | null;
+  min_affection: string | null;
+  min_beauty: string | null;
+  min_happiness: string | null;
+  min_level: number;
+  needs_overworld_rain: boolean;
+  party_species: string | null;
+  party_type: string | null;
+  relative_physical_stats: string | null;
+  time_of_day: string | null;
+  trigger: {
+    name: keyof typeof EvolutionTriggerTypes;
+    url: string;
+  };
+  turn_upside_down: boolean;
+}
+
+interface EvolvesTo {
+  evolution_details: Array<EvolutionDetails>;
+  evolves_to: Array<{
+    evolution_details: Array<EvolutionDetails>;
+    evolves_to: [];
+    is_baby: boolean;
+    species: PokemonEntity;
+  }>;
+  is_baby: boolean;
+  species: PokemonEntity;
+}
+
+export interface FetchEvolutionChainResponse {
+  baby_trigger_item: string | null;
+  chain: {
+    evolution_details: [];
+    evolves_to: Array<EvolvesTo>;
+  };
+  id: number;
+}
 
 export interface FetchPokemonDataResponse {
   abilities: PokemonAbility[];

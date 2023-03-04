@@ -4,7 +4,13 @@ import {
   type FetchPokemonSpeciesResponse,
   type PokemonSpecies,
   type Pokemon,
+  type FetchEvolutionChainResponse,
+  type EvolvesTo,
+  type NextPokemonEvolution,
+  EvolutionTriggerTypes,
 } from "~/types";
+
+type EvolutionChain = Pick<FetchEvolutionChainResponse, "chain">;
 
 export const MoveLearningMethods = {
   Egg: "egg",
@@ -13,14 +19,10 @@ export const MoveLearningMethods = {
   Tutor: "tutor",
 };
 
-export enum EvolutionTriggerTypes {
-  "level-up" = "Lvl",
-}
+export async function formatPokemonEvolutionChain(chain: EvolutionChain) {
+  const extractedEvolvesTo: NextPokemonEvolution[] = [];
 
-export async function formatPokemonEvolutionChain(chain) {
-  const extractedEvolvesTo = [];
-
-  async function extractEvolvesTo(evolvesTo) {
+  async function extractEvolvesTo(evolvesTo: EvolvesTo[]) {
     if (evolvesTo.length) {
       const [nextPokemon] = evolvesTo;
       const nextEvolution = {
@@ -119,7 +121,9 @@ export async function fetchPokemonDataByName(
       } = await (
         await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonName}/`)
       ).json();
-      const { chain } = await (await fetch(url)).json();
+      const { chain }: FetchEvolutionChainResponse = await (
+        await fetch(url)
+      ).json();
       const formattedChain = await formatPokemonEvolutionChain(chain);
 
       const formatHeight = (height: number) => {
