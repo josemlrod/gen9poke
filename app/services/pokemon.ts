@@ -1,15 +1,8 @@
-import {
-  AllPokemonResponse,
-  capitalizeFirstLetter,
-  PokemonAbility,
-  PokemonEntry,
-  PokemonName,
-} from "./index";
 import { replaceHyphensWithSpaces } from "./index";
-
 import {
-  FetchPokemonSpeciesResponse,
-  PokemonSpecies,
+  type FetchPokemonDataResponse,
+  type FetchPokemonSpeciesResponse,
+  type PokemonSpecies,
   type Pokemon,
 } from "~/types";
 
@@ -112,8 +105,14 @@ export async function fetchPokemonDataByName(
     );
 
     if (response.ok) {
-      const { abilities, height, moves, stats, types, weight } =
-        await response.json();
+      const {
+        abilities,
+        height,
+        moves,
+        stats,
+        types,
+        weight,
+      }: FetchPokemonDataResponse = await response.json();
 
       const {
         evolution_chain: { url },

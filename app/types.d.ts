@@ -2,17 +2,15 @@
  * COMPONENT PROP TYPES
  */
 export type PokemonEvolutions = Pick<Pokemon, "evolution">;
-
 export type PokemonMoves = Pick<Pokemon, "moves">;
-
 export type PokemonSpecies = Pick<
   Pokemon,
   "description" | "id" | "name" | "typeColor"
 >;
-
 export type PokemonStats = Pick<Pokemon, "stats">;
-
 export type PokemonTypes = Pick<Pokemon, "types">;
+export type PokemonHeight = string;
+export type PokemonWeight = string;
 
 export interface FlavorTextEntries {
   flavor_text: string;
@@ -46,14 +44,14 @@ export interface Pokemon {
     firstPokemonSpeciesId: string;
     nextPokemonEvolutions: NextPokemonEvolution[];
   };
-  height: string;
+  height: PokemonHeight;
   id: string;
   moves: PokemonMove[];
   name: string;
   stats: PokemonStat[];
   typeColor: string;
   types: PokemonType[];
-  weight: string;
+  weight: PokemonWeight;
 }
 
 export interface PokemonAbility {
@@ -100,6 +98,36 @@ export type Url = Pick<PokemonEntity, "url">;
 /**
  * API RESPONSE TYPES
  */
+
+export interface FetchPokemonDataResponse {
+  abilities: PokemonAbility[];
+  base_experience: number;
+  forms: PokemonEntity[];
+  game_indices: Array<{
+    game_index: number;
+    version: PokemonEntity;
+  }>;
+  height: number;
+  held_items?: [];
+  id: number;
+  is_default: boolean;
+  location_area_encounters: string;
+  /**
+   * TODO:
+   * Make PokemonMove from API an interface
+   * extend it with "learnedBy" for client-side type
+   * do the same with all other data structures
+   * modified for client
+   */
+  moves: PokemonMove[];
+  name: string;
+  order: number;
+  past_types?: [];
+  species: PokemonEntity;
+  stats: PokemonStat[];
+  types: PokemonType[];
+  weight: number;
+}
 
 export interface FetchPokemonSpeciesResponse {
   id: number;
