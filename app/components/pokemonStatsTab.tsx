@@ -1,9 +1,9 @@
 import React from "react";
 
-import { type PokemonStats } from "~/services";
 import { mapStatValueToStyles } from "~/services";
+import { type PokemonStats } from "~/types";
 
-type Props = { stats: PokemonStats[] };
+type Props = PokemonStats;
 
 export default function PokemonStatsTab({ stats }: Props) {
   const totalStats = stats.reduce(

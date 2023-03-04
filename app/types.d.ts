@@ -1,6 +1,17 @@
 /**
  * COMPONENT PROP TYPES
  */
+export type PokemonEvolutions = Pick<Pokemon, "evolution">;
+
+export type PokemonMoves = Pick<Pokemon, "moves">;
+
+export type PokemonSpecies = Pick<
+  Pokemon,
+  "description" | "id" | "name" | "typeColor"
+>;
+
+export type PokemonStats = Pick<Pokemon, "stats">;
+
 export interface FlavorTextEntries {
   flavor_text: string;
   language: PokemonEntity;
@@ -70,11 +81,6 @@ export interface PokemonName {
   name: string;
   language: PokemonEntity;
 }
-
-export type PokemonSpecies = Pick<
-  Pokemon,
-  "description" | "id" | "name" | "typeColor"
->;
 
 export interface PokemonStat {
   base_stat: number;

@@ -1,9 +1,9 @@
 import React from "react";
 
-import { type PokemonMove } from "~/services/pokemonTypes";
+import { type PokemonMoves } from "~/types";
 import { MoveLearningMethods } from "~/services/pokemon";
 
-export function PokemonMovesTab({ moves }: { moves: PokemonMove[] }) {
+export function PokemonMovesTab({ moves }: PokemonMoves) {
   const movesLearnedByEgg = moves.filter((move) => {
     return move.learnedBy === MoveLearningMethods.Egg;
   });

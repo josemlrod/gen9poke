@@ -1,10 +1,9 @@
 import React from "react";
 
-import { type PokemonType, getPokemonTypeIcon } from "~/services";
+import { getPokemonTypeIcon } from "~/services";
+import { type PokemonTypes as PokemonTypesType } from "~/types";
 
-type Props = {
-  types: PokemonType[];
-};
+type Props = PokemonTypesType;
 
 export default function PokemonTypes({ types }: Props) {
   return (

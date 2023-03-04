@@ -1,7 +1,11 @@
 import { Link } from "@remix-run/react";
 import React from "react";
 
-export function PokemonEvolutionTab({ evolution }) {
+import { type PokemonEvolutions } from "~/types";
+
+type Props = PokemonEvolutions;
+
+export function PokemonEvolutionTab({ evolution }: Props) {
   const { firstPokemonSpecies, firstPokemonSpeciesId, nextPokemonEvolutions } =
     evolution;
 
