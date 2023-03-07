@@ -4,13 +4,14 @@ import {
   type FetchPokemonSpeciesResponse,
   type PokemonSpecies,
   type Pokemon,
+  type PokemonAbility,
+  type PokemonName,
   type FetchEvolutionChainResponse,
+  type EvolutionChain,
   type EvolvesTo,
   type NextPokemonEvolution,
   EvolutionTriggerTypes,
 } from "~/types";
-
-type EvolutionChain = Pick<FetchEvolutionChainResponse, "chain">;
 
 export const MoveLearningMethods = {
   Egg: "egg",
@@ -48,23 +49,21 @@ export async function formatPokemonEvolutionChain(chain: EvolutionChain) {
   };
 }
 
-export async function fetchPaldeaPokemonIds() {
-  try {
-    const { pokemon_entries: pokemonEntries } = await (
-      await fetch("https://pokeapi.co/api/v2/pokedex/paldea/")
-    ).json();
+// export async function fetchPaldeaPokemonIds() {
+//   try {
+//     const { pokemon_entries: pokemonEntries } = await (
+//       await fetch("https://pokeapi.co/api/v2/pokedex/paldea/")
+//     ).json();
 
-    return pokemonEntries.map((pokemonEntry: PokemonEntry) =>
-      getPokemonId(pokemonEntry.pokemon_species.url)
-    );
-  } catch (e) {
-    console.log(e);
-  }
-}
+//     return pokemonEntries.map((pokemonEntry: PokemonEntry) =>
+//       getPokemonId(pokemonEntry.pokemon_species.url)
+//     );
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
 
-export async function fetchAllPokemon(
-  nextFetchUrl?: string
-): Promise<AllPokemonResponse> {
+export async function fetchAllPokemon(nextFetchUrl?: string) {
   try {
     const { next, results } = await (
       await fetch(nextFetchUrl || "https://pokeapi.co/api/v2/pokemon")
@@ -184,13 +183,10 @@ export async function fetchPokemonDataByName(
         const [{ move_learn_method: moveLearnMethod }] =
           move.version_group_details;
 
-        let learnedBy;
+        let learnedBy = MoveLearningMethods.LevelingUp;
         switch (moveLearnMethod.name) {
           case MoveLearningMethods.Egg:
             learnedBy = MoveLearningMethods.Egg;
-            break;
-          case MoveLearningMethods.LevelingUp:
-            learnedBy = MoveLearningMethods.LevelingUp;
             break;
           case MoveLearningMethods.Machine:
             learnedBy = MoveLearningMethods.Machine;
@@ -203,8 +199,8 @@ export async function fetchPokemonDataByName(
         }
 
         return {
-          learnedBy,
           ...move,
+          learnedBy,
           move: {
             ...move.move,
             name: replaceHyphensWithSpaces(move.move.name),
@@ -229,8 +225,8 @@ export async function fetchPokemonDataByName(
 
 export async function getPokemonIdByName(name: string) {
   try {
-    const { id } = await fetchPokemonSpeciesByName(name);
-    return id;
+    const pokemonSpeciesResponse = await fetchPokemonSpeciesByName(name);
+    return pokemonSpeciesResponse?.id;
   } catch (e) {
     console.log(e);
   }
@@ -291,19 +287,19 @@ export async function fetchPokemonSpeciesByName(
   }
 }
 
-export async function getPaldeaPokemonData() {
-  const ids = await fetchPaldeaPokemonIds();
-  const species = Promise.all(
-    ids.map(async (id: number) => {
-      return {
-        ...(await fetchPokemonSpeciesById(id)),
-        ...(await fetchPokemonDataById(id)),
-      };
-    })
-  );
+// export async function getPaldeaPokemonData() {
+//   const ids = await fetchPaldeaPokemonIds();
+//   const species = Promise.all(
+//     ids.map(async (id: number) => {
+//       return {
+//         ...(await fetchPokemonSpeciesById(id)),
+//         ...(await fetchPokemonDataById(id)),
+//       };
+//     })
+//   );
 
-  return species;
-}
+//   return species;
+// }
 
 export async function getPokemonData(pokemonName: string) {
   try {
@@ -364,7 +360,7 @@ function getPokemonName(names: PokemonName[]) {
   return name;
 }
 
-function getPokemonId(url: string) {
-  const id = url.split("/")[6];
-  return Number(id);
-}
+// function getPokemonId(url: string) {
+//   const id = url.split("/")[6];
+//   return Number(id);
+// }

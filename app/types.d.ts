@@ -26,10 +26,14 @@ export interface FlavorTextEntries {
   version: PokemonEntity;
 }
 
+type EvolutionTriggerKeys = keyof typeof EvolutionTriggerTypes;
+export type EvolutionTriggerValues =
+  typeof EvolutionTriggerTypes[EvolutionTriggerKeys];
+
 export interface NextPokemonEvolution {
-  evolutionId: string;
+  evolutionId?: string;
   evolutionName: string;
-  evolutionTrigger: keyof EvolutionTriggerTypes;
+  evolutionTrigger: EvolutionTriggerValues;
   evolutionTriggerDetails: number;
 }
 
@@ -49,13 +53,13 @@ export interface Pokemon {
   description: string;
   evolution: {
     firstPokemonSpecies: string;
-    firstPokemonSpeciesId: string;
+    firstPokemonSpeciesId?: string;
     nextPokemonEvolutions: NextPokemonEvolution[];
   };
   height: PokemonHeight;
   id: string;
   moves: PokemonMove[];
-  name: string;
+  name?: string;
   stats: PokemonStat[];
   typeColor: string;
   types: PokemonType[];
@@ -130,7 +134,7 @@ interface EvolutionDetails {
   turn_upside_down: boolean;
 }
 
-interface EvolvesTo {
+export interface EvolvesTo {
   evolution_details: Array<EvolutionDetails>;
   evolves_to: Array<{
     evolution_details: Array<EvolutionDetails>;
@@ -142,12 +146,16 @@ interface EvolvesTo {
   species: PokemonEntity;
 }
 
+export interface EvolutionChain {
+  evolution_details: [];
+  evolves_to: Array<EvolvesTo>;
+  is_baby: boolean;
+  species: PokemonEntity;
+}
+
 export interface FetchEvolutionChainResponse {
   baby_trigger_item: string | null;
-  chain: {
-    evolution_details: [];
-    evolves_to: Array<EvolvesTo>;
-  };
+  chain: EvolutionChain;
   id: number;
 }
 

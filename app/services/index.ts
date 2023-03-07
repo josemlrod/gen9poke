@@ -1,11 +1,9 @@
 import {
   fetchAllPokemon,
-  fetchPaldeaPokemonIds,
   fetchPokemonDataById,
   fetchPokemonDataByName,
   fetchPokemonSpeciesById,
   fetchPokemonSpeciesByName,
-  getPaldeaPokemonData,
   getAllPokemonData,
   getPokemonData,
 } from "./pokemon";
@@ -23,13 +21,11 @@ import {
 export {
   capitalizeFirstLetter,
   fetchAllPokemon,
-  fetchPaldeaPokemonIds,
   fetchPokemonDataById,
   fetchPokemonDataByName,
   fetchPokemonSpeciesById,
   fetchPokemonSpeciesByName,
   formatPokemonId,
-  getPaldeaPokemonData,
   getPokemonCardBgColor,
   getAllPokemonData,
   getPokemonData,

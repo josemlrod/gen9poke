@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { redirect } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
+
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3BottomLeftIcon,
-  BellIcon,
+  // BellIcon,
   CalendarIcon,
   ChartBarIcon,
   FolderIcon,
@@ -15,11 +16,12 @@ import {
 } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
-import { getAllPokemonData, type Pokemon } from "~/services";
+import PokemonCard from "~/components/pokemonCard";
+
+import { getAllPokemonData } from "~/services";
 import { useInfiniteScroll } from "~/hooks/useInfiniteScroll";
 
-import PokemonCard from "~/components/pokemonCard";
-import type { LoaderArgs } from "@remix-run/node";
+import { type Pokemon } from "~/types";
 
 export async function loader({ params, request }: LoaderArgs) {
   const url = new URL(request.url);
@@ -67,7 +69,7 @@ export default function Index() {
       setPokemon((prevPokemon) => [...prevPokemon, ...fetcher.data.allPokemon]);
       setNextPageQuery(fetcher.data.next);
     }
-  }, [fetcher.data]);
+  }, [fetcher.data, fetcher.state]);
 
   const loadNext = () => {
     if (fetcher.state === "loading") {
